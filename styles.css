@@ -71,7 +71,7 @@ section{position:relative;overflow:clip;isolation:isolate}
   filter:drop-shadow(0 16px 20px rgba(0,0,0,.4))}
 
 /* 1 abertura */
-.hero{min-height:100svh;display:flex;align-items:flex-end;padding:96px 0 72px}
+.hero{min-height:100svh;display:flex;align-items:flex-end;padding:96px 0 calc(6vh + 80px)}
 .hero__wrap{z-index:3}
 /* o vídeo só precisa de uma folga pequena para o movimento do cursor; folga maior = imagem ampliada e borrada */
 .hero > .layer--bg{inset:-2.5%}
@@ -79,8 +79,8 @@ section{position:relative;overflow:clip;isolation:isolate}
 .hero h1{font-size:clamp(2.5rem,10.5vw,5.6rem)}
 .hero .lede{color:var(--ink-soft);max-width:46ch;font-size:1.02rem}
 
-/* 2 natureza */
-.nat{padding:130px 0 calc(170px + 6vh);background:var(--g4)}
+/* 2 natureza: começa por trás do card da Consciência, então a folhagem aparece nos cantos arredondados dele */
+.nat{margin-top:-90px;padding:calc(130px + 90px) 0 170px;background:var(--g4)}
 .card{position:relative;z-index:4;display:grid;gap:26px;padding:20px;border-radius:28px}
 /* recorte no vidro: mostra o mesmo fundo da seção, alinhado por JS, com a mesma película escura e borda em relevo */
 .card__fig{margin:0;border-radius:20px;overflow:hidden;aspect-ratio:4/5;min-height:240px;position:relative;background:var(--g4)}
@@ -101,7 +101,7 @@ section{position:relative;overflow:clip;isolation:isolate}
   .card__fig{aspect-ratio:3/4}
 }
 
-/* 3 consciência: um card claro, de cantos arredondados, apoiado sobre o resto da página */
+/* consciência (entre a Abertura e a Natureza): um card claro, de cantos arredondados, apoiado sobre as duas */
 .cons{background:var(--paper);color:var(--paper-ink);padding:130px 0 clamp(240px,32vw,400px);
   margin:-6vh clamp(10px,2vw,28px) 0;border-radius:clamp(28px,4vw,56px);z-index:2;
   box-shadow:0 -24px 70px rgba(0,0,0,.35),0 40px 90px rgba(0,0,0,.5);transform-origin:50% 0}
