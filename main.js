@@ -150,6 +150,24 @@
   gsap.registerPlugin(ScrollTrigger);
   ScrollTrigger.config({ ignoreMobileResize: true });
 
+  // ---- rolagem suave (Lenis) ligada ao ScrollTrigger. No toque o navegador mantém a inércia nativa.
+  var lenis = null;
+  if (window.Lenis) {
+    lenis = new window.Lenis({ lerp: 0.09, smoothWheel: true, wheelMultiplier: 1, anchors: false });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
+    gsap.ticker.lagSmoothing(0);
+    // links internos (#secao) passam pelo Lenis para rolar suave; a pinagem da Mecânica continua correta
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a || a.getAttribute('href').length < 2) return;
+      var t = $(a.getAttribute('href'));
+      if (!t) return;
+      e.preventDefault();
+      lenis.scrollTo(t, { duration: 1.4 });
+    });
+  }
+
   var vsrc = window.matchMedia('(max-width: 820px)').matches
     ? (cfg.heroVideo && (cfg.heroVideo.mobile || cfg.heroVideo.desktop))
     : (cfg.heroVideo && (cfg.heroVideo.desktop || cfg.heroVideo.mobile));
