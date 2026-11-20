@@ -69,7 +69,7 @@
     var st = { x: 0, y: 0 }, base = null, enabled = true, active = false, frameOn = false, amp = 1, lastX = 99, lastY = 99;
     var qx = gsap.quickTo(st, 'x', { duration: 0.6, ease: 'power3.out' });
     var qy = gsap.quickTo(st, 'y', { duration: 0.6, ease: 'power3.out' });
-    var layers = $$('[data-tilt-layer]'), cuts = $$('.cut[data-depth]'), root = document.documentElement;
+    var layers = $$('[data-tilt-layer]'), cuts = $$('.cut[data-depth], .mass[data-depth]'), root = document.documentElement;
 
     function onOri(e) {
       if (!enabled || e.gamma == null || e.beta == null) return;
@@ -250,9 +250,10 @@
     revealWords('.card h2', function () { return scrub('.card', 'top 78%', 'top 38%'); });
     revealLines('.card h3, .card p.body', function (el) { return scrub(el, 'top 95%', 'top 60%'); });
     gsap.from('.card__links > *', { y: 24, opacity: 0, stagger: 0.12, ease: 'none', scrollTrigger: scrub('.card__links', 'top 98%', 'top 70%') });
-    $$('.nat .cut').forEach(function (l) {
-      gsap.to(l, { y: parseFloat(l.dataset.speed) * 3, ease: 'none', scrollTrigger: scrub('.nat', 'top bottom', 'bottom top') });
-    });
+    // conjuntos de folhagem: entram pelos cantos junto com o card e depois descem um pouco (nunca sobem, para não abrir fresta embaixo)
+    gsap.fromTo('.mass--esq', { xPercent: -45, opacity: 0 }, { xPercent: 0, opacity: 1, ease: 'none', scrollTrigger: scrub('.card', 'top 98%', 'top 40%') });
+    gsap.fromTo('.mass--dir', { xPercent: 45, opacity: 0 }, { xPercent: 0, opacity: 1, ease: 'none', scrollTrigger: scrub('.card', 'top 98%', 'top 40%') });
+    gsap.to('.mass', { y: 70, ease: 'none', scrollTrigger: scrub('.nat', 'center center', 'bottom top') });
 
     // 3 CONSCIÊNCIA: o card claro sobe e se assenta; a palavra se revela de baixo para cima
     gsap.fromTo('.cons', { scale: 0.94, y: 60 }, { scale: 1, y: 0, ease: 'none', scrollTrigger: scrub('.cons', 'top bottom', 'top 30%') });
