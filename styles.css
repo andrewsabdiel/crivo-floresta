@@ -123,13 +123,9 @@ section{position:relative;overflow:clip;isolation:isolate}
 .ring::after{content:"";position:absolute;right:12%;bottom:8%;width:10px;height:10px;border-radius:50%;background:var(--g3)}
 @media(min-width:820px){.cons__cols{grid-template-columns:1fr 1fr;gap:56px}}
 
-/* 4 mecânica: verde com luz dinâmica e texto branco; depois a paisagem abre junto com o card */
+/* 4 mecânica: verde com texto branco; depois a paisagem abre junto com o card */
 .mec{height:100svh;min-height:560px;background:var(--g4)}
 .mec__stage{position:absolute;inset:0}
-.mec__light{position:absolute;inset:0;width:100%;height:100%;display:block}
-.mec--nogl .mec__stage{background:
-  radial-gradient(60% 50% at 25% 20%,rgba(110,134,73,.35),transparent 70%),
-  radial-gradient(50% 45% at 80% 70%,rgba(71,112,35,.3),transparent 70%),var(--g4)}
 .mec__intro{position:absolute;inset:0;z-index:3;display:grid;place-content:center;justify-items:center;gap:18px;text-align:center;
   padding:0 var(--gr) 0 var(--gl)}
 .mec__title{font-weight:800;font-size:clamp(2.2rem,6.2vw,5.6rem);line-height:1.02;letter-spacing:-.025em;max-width:16ch;text-wrap:balance;color:#fff}
@@ -143,17 +139,16 @@ section{position:relative;overflow:clip;isolation:isolate}
 .mec__panel ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;color:var(--ink-soft);font-size:.92rem}
 .mec__panel li{display:flex;gap:10px;align-items:baseline}
 .mec__panel li::before{content:"";flex:0 0 8px;height:8px;border-radius:50%;background:var(--g1);transform:translateY(-1px)}
-.mec--static .mec__intro,.mec--static .mec__light{display:none}
+.mec--static .mec__intro{display:none}
 @media(min-width:820px){.mec__panel{left:auto;right:max(var(--gr),6vw);top:0;bottom:0;margin-block:auto;height:fit-content}}
 
 /* 5 encerramento: começa no mesmo verde em que a Mecânica termina e a floresta aparece por cima */
-.end{padding:clamp(300px,32vw,440px) 0 130px;background:var(--g4)}
+.end{padding:200px 0 130px;background:var(--g4)}
 .end > .layer{-webkit-mask-image:linear-gradient(to bottom,transparent 0,transparent 8%,#000 38%);
   mask-image:linear-gradient(to bottom,transparent 0,transparent 8%,#000 38%)}
 .end__wrap{max-width:1180px}
 .end h2{font-size:clamp(2.2rem,8vw,4.6rem);max-width:15ch;margin-top:14px}
 .end p.lede{color:var(--ink-soft);max-width:46ch;margin-top:20px}
-.cut--end{--w:clamp(300px,70vw,860px);left:50%;top:-4%;margin-left:calc(var(--w) / -2);z-index:4}
 .cta{display:inline-flex;align-items:center;gap:10px;margin-top:32px;padding:16px 28px;border-radius:999px;text-decoration:none;font-weight:600;font-size:1.02rem;color:var(--ink)}
 .cta:hover{background:rgba(238,243,230,.16)}
 .cta[aria-disabled="true"]{opacity:.6;cursor:not-allowed}

@@ -9,7 +9,7 @@
   var hasSplit = !!window.SplitText;
 
   var btnMotion = $('#btnMotion'), btnTilt = $('#btnTilt');
-  var ambient = null, videoCtl = null, tiltCtl = null, lightCtl = null;
+  var ambient = null, videoCtl = null, tiltCtl = null;
 
   // ---- botão e link da landing: só funcionam com URL confirmada e nunca redirecionam sozinhos
   var cta = $('#cta'), footLanding = $('#footLanding');
@@ -62,63 +62,6 @@
     }
     apply();
     return { setEnabled: function (on) { enabled = on; apply(); } };
-  }
-
-  // ---- luz dinâmica da Mecânica (shader WebGL leve, em meia resolução)
-  function setupLight(canvas, section) {
-    var gl = canvas.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'low-power' });
-    if (!gl) { section.classList.add('mec--nogl'); canvas.style.display = 'none'; return null; }
-    var vs = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
-    var fs = [
-      'precision mediump float;uniform vec2 uRes;uniform float uTime;uniform vec2 uMouse;',
-      'float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}',
-      'float n(vec2 p){vec2 i=floor(p),f=fract(p),u=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),u.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),u.x),u.y);}',
-      'float fbm(vec2 p){float v=0.,a=.5;for(int k=0;k<5;k++){v+=a*n(p);p*=2.02;a*=.5;}return v;}',
-      'void main(){',
-      ' vec2 uv=gl_FragCoord.xy/uRes; vec2 p=(gl_FragCoord.xy-.5*uRes)/uRes.y; float t=uTime*.06;',
-      ' vec3 deep=vec3(.027,.118,.027), moss=vec3(.176,.325,.102), fern=vec3(.278,.439,.137);',
-      ' vec3 col=mix(deep,moss,smoothstep(-.2,1.1,uv.y+.25*fbm(p*1.5+t)));',
-      ' float f=fbm(p*2.2+vec2(t*1.4,-t)); float c=pow(1.-abs(sin(f*6.2831+t*3.)),14.); col+=fern*c*.12;',
-      ' vec2 o=p-vec2(-.9,.7); float a=atan(o.y,o.x);',
-      ' float r=pow(.5+.5*sin(a*18.+fbm(vec2(a*3.,t*2.))*4.+t*2.),6.)*smoothstep(1.8,.2,length(o)); col+=vec3(.55,.68,.36)*r*.12;',
-      ' vec2 m=(uMouse-.5)*vec2(uRes.x/uRes.y,1.); float s=exp(-dot(p-m,p-m)*2.5); col+=vec3(.45,.6,.3)*s*.22;',
-      ' col*=1.-.35*dot(uv-.5,uv-.5)*2.; gl_FragColor=vec4(col,1.);',
-      '}'
-    ].join('\n');
-    function sh(type, src) { var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return s; }
-    var prog = gl.createProgram();
-    gl.attachShader(prog, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(prog);
-    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { section.classList.add('mec--nogl'); canvas.style.display = 'none'; return null; }
-    gl.useProgram(prog);
-    var buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-    var loc = gl.getAttribLocation(prog, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-    var uRes = gl.getUniformLocation(prog, 'uRes'), uTime = gl.getUniformLocation(prog, 'uTime'), uMouse = gl.getUniformLocation(prog, 'uMouse');
-    var mouse = { x: 0.3, y: 0.7 }, target = { x: 0.3, y: 0.7 }, visible = false, enabled = true, t0 = performance.now();
-    function size() {
-      var scale = 0.5; // meia resolução: a luz é suave, não precisa de mais
-      canvas.width = Math.max(2, Math.round(canvas.clientWidth * scale));
-      canvas.height = Math.max(2, Math.round(canvas.clientHeight * scale));
-      gl.viewport(0, 0, canvas.width, canvas.height);
-    }
-    size(); window.addEventListener('resize', size);
-    window.addEventListener('pointermove', function (e) {
-      if (e.pointerType === 'touch') return;
-      target.x = e.clientX / window.innerWidth; target.y = 1 - e.clientY / window.innerHeight;
-    }, { passive: true });
-    function draw() {
-      if (!visible || !enabled) return;
-      var tt = (performance.now() - t0) / 1000;
-      mouse.x += (target.x - mouse.x) * 0.05; mouse.y += (target.y - mouse.y) * 0.05;
-      if (!target.moved) { target.x = 0.5 + Math.cos(tt * 0.2) * 0.25; target.y = 0.6 + Math.sin(tt * 0.15) * 0.15; }
-      gl.uniform2f(uRes, canvas.width, canvas.height); gl.uniform1f(uTime, tt); gl.uniform2f(uMouse, mouse.x, mouse.y);
-      gl.drawArrays(gl.TRIANGLES, 0, 3);
-    }
-    window.addEventListener('pointermove', function (e) { if (e.pointerType !== 'touch') target.moved = true; }, { passive: true, once: true });
-    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { visible = es[0].isIntersecting; }).observe(section);
-    gsap.ticker.add(draw);
-    draw();
-    return { setEnabled: function (on) { enabled = on; } };
   }
 
   // ---- giroscópio (celular) ou cursor (PC): move as camadas
@@ -188,7 +131,7 @@
     }
   }
 
-  // ---- pausa: movimento ambiente, vídeo, luz e cursor/giroscópio
+  // ---- pausa: movimento ambiente, vídeo e cursor/giroscópio
   btnMotion.addEventListener('click', function () {
     var paused = btnMotion.getAttribute('aria-pressed') !== 'true';
     btnMotion.setAttribute('aria-pressed', String(paused));
@@ -196,7 +139,6 @@
     if (ambient) ambient.paused(paused);
     if (videoCtl) videoCtl.setEnabled(!paused);
     if (tiltCtl) tiltCtl.setEnabled(!paused);
-    if (lightCtl) lightCtl.setEnabled(!paused);
   });
 
   // ---- sem GSAP ou com movimento reduzido: página estática e totalmente legível
@@ -234,7 +176,6 @@
     } else cb(hv.desktop);
   }
   pickVideo(function (src) { if (src) videoCtl = setupVideo($('.hero__video'), src); });
-  lightCtl = setupLight($('.mec__light'), $('.mec'));
   initTilt();
 
   // ---- utilitários de texto (SplitText): linhas sobem de dentro de uma máscara, palavras em cascata
@@ -323,7 +264,7 @@
     gsap.to('.ring', { rotation: 40, ease: 'none', scrollTrigger: scrub('.cons', 'top bottom', 'bottom top') });
     ScrollTrigger.create({ trigger: '.cons', start: 'top 40px', end: 'bottom 40px', toggleClass: { targets: '.bar', className: 'bar--dark' } });
 
-    // 4 MECÂNICA (fixa): verde com luz dinâmica e texto branco -> a paisagem abre com o card -> some no verde do Encerramento
+    // 4 MECÂNICA (fixa): verde com texto branco -> a paisagem abre com o card -> some no verde do Encerramento
     var mec = gsap.timeline({ scrollTrigger: { trigger: '.mec', start: 'top top', end: '+=220%', pin: true, scrub: 0.6, anticipatePin: 1 } });
     mec.fromTo('.mec__intro .eyebrow', { opacity: 0, letterSpacing: '.6em' }, { opacity: 1, letterSpacing: '.22em', duration: 0.12, ease: 'none' }, 0);
     if (hasSplit) {
@@ -345,7 +286,6 @@
     revealWords('.end h2', function (el) { return scrub(el, 'top 92%', 'top 50%'); });
     revealLines('.end .lede', function (el) { return scrub(el, 'top 95%', 'top 65%'); });
     gsap.fromTo('.cta', { clipPath: 'inset(-40% 50% -60% 50% round 999px)', opacity: 0 }, { clipPath: 'inset(-40% -20% -60% -20% round 999px)', opacity: 1, ease: 'none', scrollTrigger: scrub('.cta', 'top 98%', 'top 75%') });
-    gsap.from('.cut--end', { y: -140, opacity: 0, ease: 'none', scrollTrigger: scrub('.end', 'top 90%', 'top 30%') });
 
     // RODAPÉ (termina exatamente no fim da página)
     gsap.from('.foot__wrap > *', { y: 30, opacity: 0, stagger: 0.12, ease: 'none', scrollTrigger: scrub('.foot', 'top bottom', 'bottom bottom') });
