@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Floresta · CRIVO</title>
+  <meta name="description" content="Uma pequena experiência sobre a beleza da natureza, feita pela CRIVO para mostrar o cuidado que colocamos em cada interface.">
+  <meta name="theme-color" content="#071E07">
+  <meta property="og:title" content="Floresta · CRIVO">
+  <meta property="og:description" content="Uma experiência web sobre a beleza da natureza, feita pela CRIVO.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://andrewsabdiel.github.io/crivo-floresta/">
+  <meta property="og:image" content="https://andrewsabdiel.github.io/crivo-floresta/assets/img/bg-mecanica-16x9.webp">
+  <link rel="preload" as="image" href="assets/img/bg-mecanica-16x9.webp" media="(min-aspect-ratio: 1/1)" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/img/bg-mecanica-9x16.webp" media="(max-aspect-ratio: 1/1)" fetchpriority="high">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Instrument+Serif:ital@1&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#conteudo">Ir para o conteúdo</a>
+<div class="progress" aria-hidden="true"></div>
+
+<header class="bar">
+  <a class="brand" href="#abertura" aria-label="CRIVO, voltar ao início">CRIVO</a>
+  <button class="chip" id="btnMotion" type="button" aria-pressed="false">Pausar movimento</button>
+</header>
+
+<main id="conteudo">
+
+<!-- 1. ABERTURA -->
+<section class="hero" id="abertura" aria-labelledby="t-hero">
+  <div class="layer layer--bg" data-parallax>
+    <picture>
+      <source media="(max-aspect-ratio: 1/1)" srcset="assets/img/bg-mecanica-9x16.webp" width="941" height="1672">
+      <img src="assets/img/bg-mecanica-16x9.webp" alt="" width="1672" height="941" fetchpriority="high" decoding="async">
+    </picture>
+    <!-- O vídeo entra aqui via config.js (heroVideo). Sem ele, a imagem é o poster. -->
+    <video class="hero__video" muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1"></video>
+  </div>
+  <div class="shade"></div>
+  <div class="wrap hero__wrap">
+    <div class="hero__copy">
+      <p class="eyebrow">Experiência CRIVO</p>
+      <h1 id="t-hero">A floresta ainda está <span class="accent">aí</span>.</h1>
+      <p class="lede">Uma pequena viagem pela beleza da natureza, e pelo que perdemos quando deixamos de olhar para ela.</p>
+      <div class="hero__actions">
+        <a class="pill pill--solid" href="#natureza">Role para explorar</a>
+        <button class="pill" id="btnPlay" type="button" hidden>Reproduzir vídeo</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. NATUREZA -->
+<section class="nat" id="natureza" aria-labelledby="t-nat">
+  <div class="layer layer--bg layer--blur" aria-hidden="true">
+    <picture>
+      <source media="(max-aspect-ratio: 1/1)" srcset="assets/img/bg-natureza-9x16.webp" width="941" height="1672">
+      <img src="assets/img/bg-natureza-16x9.webp" alt="" width="1672" height="941" loading="lazy" decoding="async">
+    </picture>
+  </div>
+  <div class="wrap nat__wrap">
+    <article class="card glass">
+      <figure class="card__fig">
+        <picture>
+          <source media="(max-aspect-ratio: 1/1)" srcset="assets/img/bg-natureza-9x16.webp" width="941" height="1672">
+          <img src="assets/img/bg-natureza-16x9.webp" alt="Folhagem densa de floresta tropical vista de cima, com samambaias e folhas largas" width="1672" height="941" loading="lazy" decoding="async">
+        </picture>
+      </figure>
+      <div class="card__copy">
+        <p class="eyebrow">Sobre vida e floresta</p>
+        <h2 id="t-nat">Viva a <span class="accent">natureza</span>.</h2>
+        <h3>Copas que respiram</h3>
+        <p class="body">Uma floresta não é um conjunto de árvores. É um sistema em que folha, raiz e solo dependem uns dos outros. Quando uma parte falta, o resto sente.</p>
+        <div class="card__links"><span>Conecte-se com a natureza</span><a class="pill" href="#consciencia">Por que importa</a><a class="pill pill--solid" href="#mecanica">Como foi feito</a></div>
+      </div>
+    </article>
+    <!-- recortes na frente do vidro (eixo Z) -->
+    <img class="cut cut--nat-a" data-speed="-26" src="assets/img/cut-cacho-superior-01.webp" alt="" aria-hidden="true" width="1141" height="912" loading="lazy" decoding="async">
+    <img class="cut cut--nat-b" data-speed="22" src="assets/img/cut-cacho-inferior-01.webp" alt="" aria-hidden="true" width="1218" height="1024" loading="lazy" decoding="async">
+    <img class="cut cut--nat-c" data-speed="-44" src="assets/img/cut-samambaia-01.webp" alt="" aria-hidden="true" width="954" height="1455" loading="lazy" decoding="async">
+  </div>
+</section>
+
+<!-- 3. CONSCIÊNCIA -->
+<section class="cons" id="consciencia" aria-labelledby="t-cons">
+  <div class="layer layer--mist" aria-hidden="true">
+    <picture><img src="assets/img/bg-consciencia-16x9.webp" alt="" width="1672" height="941" loading="lazy" decoding="async"></picture>
+  </div>
+  <div class="ring" aria-hidden="true"></div>
+  <div class="wrap cons__wrap">
+    <p class="eyebrow">Enraizados na nossa natureza</p>
+    <h2 class="big" id="t-cons">RAÍZES</h2>
+    <div class="cons__rule" aria-hidden="true"><span>no que somos</span></div>
+    <div class="cons__cols">
+      <p>Perceber a natureza é o primeiro passo para cuidar dela. O que fica invisível é o que se perde sem que ninguém note.</p>
+      <p class="strong">Não somos apenas visitantes. Somos parte deste ecossistema.</p>
+    </div>
+    <img class="cut cut--cons" data-speed="-30" src="assets/img/cut-hosta-01.webp" alt="" aria-hidden="true" width="899" height="1212" loading="lazy" decoding="async">
+  </div>
+</section>
+
+<!-- 4. MECÂNICA -->
+<section class="mec" id="mecanica" aria-labelledby="t-mec">
+  <div class="mec__stage">
+    <div class="mec__base" aria-hidden="true"><span>por baixo da imagem</span></div>
+    <div class="mec__open" aria-hidden="true">
+      <picture>
+        <source media="(max-aspect-ratio: 1/1)" srcset="assets/img/bg-mecanica-9x16.webp" width="941" height="1672">
+        <img src="assets/img/bg-mecanica-16x9.webp" alt="" width="1672" height="941" loading="lazy" decoding="async">
+      </picture>
+    </div>
+    <img class="cut cut--mec-a" data-speed="-40" src="assets/img/cut-tropical-01.webp" alt="" aria-hidden="true" width="996" height="1327" loading="lazy" decoding="async">
+    <img class="cut cut--mec-b" data-speed="-70" src="assets/img/cut-samambaia-01.webp" alt="" aria-hidden="true" width="954" height="1455" loading="lazy" decoding="async">
+  </div>
+  <div class="mec__panel glass">
+    <h2 id="t-mec">O que você acabou de ver</h2>
+    <ul>
+      <li>Camadas que se movem em profundidade</li>
+      <li>Uma máscara que se abre com a rolagem</li>
+      <li>Texto preenchido pela imagem</li>
+      <li>Vidro fosco só onde ajuda a leitura</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 5. ENCERRAMENTO -->
+<section class="end" id="encerramento" aria-labelledby="t-end">
+  <div class="layer layer--bg layer--dim" aria-hidden="true">
+    <picture>
+      <source media="(max-aspect-ratio: 1/1)" srcset="assets/img/bg-encerramento-9x16.webp" width="941" height="1672">
+      <img src="assets/img/bg-encerramento-16x9.webp" alt="" width="1672" height="941" loading="lazy" decoding="async">
+    </picture>
+  </div>
+  <img class="cut cut--end" data-speed="14" src="assets/img/cut-galho-superior-01.webp" alt="" aria-hidden="true" width="1438" height="644" loading="lazy" decoding="async">
+  <div class="wrap end__wrap">
+    <p class="eyebrow">Feito pela CRIVO</p>
+    <h2 id="t-end">Esta experiência é uma amostra do nosso cuidado.</h2>
+    <p class="lede">A CRIVO desenvolve sistemas, sites e apps sob medida, com clareza de uso e atenção a cada detalhe da interface.</p>
+    <a class="cta glass" id="cta" href="#encerramento">Conheça a CRIVO <span aria-hidden="true">→</span></a>
+    <p class="credits">Imagens da floresta geradas por IA. Vídeo: Pexels.</p>
+  </div>
+</section>
+
+</main>
+
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="config.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
