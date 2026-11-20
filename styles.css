@@ -8,7 +8,6 @@
   --f-accent:'Instrument Serif',Georgia,serif;
   --gl:max(16px,env(safe-area-inset-left,0px));
   --gr:max(16px,env(safe-area-inset-right,0px));
-  --overlap:28vh; /* quanto a Natureza sobe sobre a Abertura para a passagem ser contínua */
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -72,16 +71,14 @@ section{position:relative;overflow:clip;isolation:isolate}
   filter:drop-shadow(0 16px 20px rgba(0,0,0,.4))}
 
 /* 1 abertura */
-.hero{min-height:100svh;display:flex;align-items:flex-end;padding:96px 0 calc(var(--overlap) + 40px)}
+.hero{min-height:100svh;display:flex;align-items:flex-end;padding:96px 0 72px}
 .hero__wrap{z-index:3}
 .hero__copy{display:grid;gap:18px;max-width:760px}
 .hero h1{font-size:clamp(2.5rem,10.5vw,5.6rem)}
 .hero .lede{color:var(--ink-soft);max-width:46ch;font-size:1.02rem}
 
-/* 2 natureza: sobe sobre a Abertura; o topo do fundo é transparente e funde com o vídeo */
-.nat{margin-top:calc(var(--overlap) * -1);padding:calc(var(--overlap) + 110px) 0 calc(170px + 6vh);background:transparent}
-.nat > .layer{-webkit-mask-image:linear-gradient(to bottom,transparent 0,transparent 7%,#000 calc(7% + var(--overlap)));
-  mask-image:linear-gradient(to bottom,transparent 0,transparent 7%,#000 calc(7% + var(--overlap)))}
+/* 2 natureza */
+.nat{padding:130px 0 calc(170px + 6vh);background:var(--g4)}
 .card{position:relative;z-index:4;display:grid;gap:26px;padding:20px;border-radius:28px}
 /* recorte no vidro: mostra o mesmo fundo da seção, alinhado por JS, com a mesma película escura e borda em relevo */
 .card__fig{margin:0;border-radius:20px;overflow:hidden;aspect-ratio:4/5;min-height:240px;position:relative;background:var(--g4)}

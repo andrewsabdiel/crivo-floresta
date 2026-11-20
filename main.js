@@ -223,10 +223,18 @@
     });
   }
 
-  var vsrc = window.matchMedia('(max-width: 820px)').matches
-    ? (cfg.heroVideo && cfg.heroVideo.mobile)
-    : (cfg.heroVideo && (cfg.heroVideo.desktop || cfg.heroVideo.mobile));
-  if (vsrc) videoCtl = setupVideo($('.hero__video'), vsrc);
+  // vídeo: AV1 1440p para telas grandes quando o aparelho decodifica com folga; senão H.264 1080p
+  function pickVideo(cb) {
+    var hv = cfg.heroVideo || {};
+    if (window.matchMedia('(max-width: 820px)').matches) return cb(hv.mobile);
+    var bigScreen = window.screen.width * (window.devicePixelRatio || 1) > 1920;
+    if (hv.desktopAv1 && bigScreen && navigator.mediaCapabilities && navigator.mediaCapabilities.decodingInfo) {
+      navigator.mediaCapabilities.decodingInfo({ type: 'file', video: { contentType: 'video/webm; codecs="av01.0.12M.08"', width: 2560, height: 1440, bitrate: 9000000, framerate: 30 } })
+        .then(function (r) { cb(r.supported && r.smooth ? hv.desktopAv1 : hv.desktop); })
+        .catch(function () { cb(hv.desktop); });
+    } else cb(hv.desktop);
+  }
+  pickVideo(function (src) { if (src) videoCtl = setupVideo($('.hero__video'), src); });
   lightCtl = setupLight($('.mec__light'), $('.mec'));
   initTilt();
 
@@ -288,10 +296,8 @@
       });
     }
     gsap.fromTo('.hero .eyebrow', { opacity: 0, letterSpacing: '.6em' }, { opacity: 1, letterSpacing: '.22em', duration: 1.4, ease: 'expo.out', delay: 0.1 });
-    // passagem para a Natureza: o texto sobe e some, o vídeo desce mais devagar e escurece
+    // ao rolar, o texto da abertura sobe e some
     gsap.to('.hero__wrap', { yPercent: -18, opacity: 0, ease: 'none', scrollTrigger: scrub('.hero', 'top top', '75% top') });
-    gsap.to('.hero .layer--bg', { yPercent: 10, ease: 'none', scrollTrigger: scrub('.hero', 'top top', 'bottom top') });
-    gsap.to('.hero .layer--bg', { opacity: 0.5, ease: 'none', scrollTrigger: scrub('.hero', '35% top', 'bottom top') });
 
     // 2 NATUREZA: o card se abre de dentro para fora; os textos entram em sequência
     gsap.fromTo('.card', { clipPath: 'inset(12% 10% 12% 10% round 28px)', scale: 0.94, opacity: 0.2 },
