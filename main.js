@@ -223,12 +223,11 @@
     });
   }
 
-  // vídeo: AV1 1440p para telas grandes quando o aparelho decodifica com folga; senão H.264 1080p
+  // vídeo (desktop, 1440p): AV1 quando o aparelho decodifica com folga; senão H.264
   function pickVideo(cb) {
     var hv = cfg.heroVideo || {};
     if (window.matchMedia('(max-width: 820px)').matches) return cb(hv.mobile);
-    var bigScreen = window.screen.width * (window.devicePixelRatio || 1) > 1920;
-    if (hv.desktopAv1 && bigScreen && navigator.mediaCapabilities && navigator.mediaCapabilities.decodingInfo) {
+    if (hv.desktopAv1 && navigator.mediaCapabilities && navigator.mediaCapabilities.decodingInfo) {
       navigator.mediaCapabilities.decodingInfo({ type: 'file', video: { contentType: 'video/webm; codecs="av01.0.12M.08"', width: 2560, height: 1440, bitrate: 9000000, framerate: 30 } })
         .then(function (r) { cb(r.supported && r.smooth ? hv.desktopAv1 : hv.desktop); })
         .catch(function () { cb(hv.desktop); });
@@ -279,7 +278,8 @@
 
     // movimento ambiente (pausável): o fundo respira e as folhas balançam de leve
     ambient = gsap.timeline();
-    ambient.fromTo('.hero .layer--bg', { scale: 1.06, xPercent: -2 }, { scale: 1, xPercent: 2, duration: 16, ease: 'sine.inOut', yoyo: true, repeat: -1 }, 0);
+    // amplia pouco o vídeo: ampliar mais deixa a imagem borrada
+    ambient.fromTo('.hero .layer--bg', { scale: 1.02, xPercent: -0.6 }, { scale: 1, xPercent: 0.6, duration: 16, ease: 'sine.inOut', yoyo: true, repeat: -1 }, 0);
     $$('.cut').forEach(function (c, i) {
       ambient.to(c, { rotation: (i % 2 ? 1 : -1) * 2.2, duration: 3.2 + (i % 3) * 0.9, ease: 'sine.inOut', yoyo: true, repeat: -1, transformOrigin: '50% 0%' }, 0);
     });

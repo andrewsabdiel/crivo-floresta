@@ -6,8 +6,8 @@ window.SITE = {
   // Vídeo de abertura (Pexels). Caminhos relativos a esta pasta. Vazio = só a imagem de poster.
   heroVideo: {
     // Pexels 28580909 (Ejov Igor), com cor reforçada e emenda cruzada para loop contínuo
-    desktop: 'assets/video/hero-desktop.mp4',          // H.264 1080p (compatível com tudo)
-    desktopAv1: 'assets/video/hero-desktop-1440.webm', // AV1 1440p (telas grandes que decodificam bem)
+    desktop: 'assets/video/hero-1440-h264.mp4',    // H.264 1440p com nitidez reforçada (compatível com tudo)
+    desktopAv1: 'assets/video/hero-1440-av1.webm', // AV1 1440p, mais leve e nítido, quando o aparelho decodifica bem
     mobile: ''   // ex.: 'assets/video/hero-mobile.mp4'
   }
 };
