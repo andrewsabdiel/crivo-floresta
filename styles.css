@@ -99,7 +99,9 @@ section{position:relative;overflow:clip;isolation:isolate}
 .big{display:block;margin:18px 0 8px;font-weight:800;letter-spacing:-.045em;line-height:.9;font-size:clamp(3.6rem,21vw,14rem);
   color:var(--g3);white-space:nowrap}
 @supports ((-webkit-background-clip:text) or (background-clip:text)){
-  .big{color:transparent;background:url(assets/img/bg-mecanica-16x9.webp) 0 0/170% auto;-webkit-background-clip:text;background-clip:text}
+  .big{color:transparent;background:url(assets/img/bg-mecanica-16x9.webp) 0 0/170% auto;
+    background-image:image-set(url(assets/img/bg-mecanica-16x9.avif) type("image/avif"),url(assets/img/bg-mecanica-16x9.webp) type("image/webp"));
+    -webkit-background-clip:text;background-clip:text}
 }
 .cons__rule{display:flex;align-items:center;gap:14px;color:var(--g3);font-weight:300;letter-spacing:.4em;text-transform:uppercase;font-size:.82rem}
 .cons__rule::before,.cons__rule::after{content:"";height:1px;background:currentColor;flex:1;opacity:.5}

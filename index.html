@@ -11,8 +11,8 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://andrewsabdiel.github.io/crivo-floresta/">
   <meta property="og:image" content="https://andrewsabdiel.github.io/crivo-floresta/assets/img/bg-mecanica-16x9.webp">
-  <link rel="preload" as="image" href="assets/img/bg-mecanica-16x9.webp" media="(min-aspect-ratio: 1/1)" fetchpriority="high">
-  <link rel="preload" as="image" href="assets/img/bg-mecanica-9x16.webp" media="(max-aspect-ratio: 1/1)" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/img/bg-mecanica-16x9.avif" type="image/avif" media="(min-aspect-ratio: 1/1)" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/img/bg-mecanica-9x16.avif" type="image/avif" media="(max-aspect-ratio: 1/1)" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Instrument+Serif:ital@1&display=swap">
@@ -36,7 +36,9 @@
 <section class="hero" id="abertura" aria-labelledby="t-hero">
   <div class="layer layer--bg" data-tilt-layer="1">
     <picture>
+      <source media="(max-aspect-ratio: 1/1)" type="image/avif" srcset="assets/img/bg-mecanica-9x16.avif" width="941" height="1672">
       <source media="(max-aspect-ratio: 1/1)" srcset="assets/img/bg-mecanica-9x16.webp" width="941" height="1672">
+      <source type="image/avif" srcset="assets/img/bg-mecanica-16x9.avif">
       <img src="assets/img/bg-mecanica-16x9.webp" alt="" width="1672" height="941" fetchpriority="high" decoding="async">
     </picture>
     <!-- O vídeo entra aqui via config.js (heroVideo), em loop contínuo com fade cruzado. Sem ele, a imagem é o poster. -->
@@ -56,7 +58,9 @@
 <section class="nat" id="natureza" aria-labelledby="t-nat">
   <div class="layer layer--bg layer--tint" id="natBg" data-tilt-layer="0.6" aria-hidden="true">
     <picture>
+      <source media="(max-aspect-ratio: 1/1)" type="image/avif" srcset="assets/img/bg-natureza-9x16.avif" width="941" height="1672">
       <source media="(max-aspect-ratio: 1/1)" srcset="assets/img/bg-natureza-9x16.webp" width="941" height="1672">
+      <source type="image/avif" srcset="assets/img/bg-natureza-16x9.avif">
       <img src="assets/img/bg-natureza-16x9.webp" alt="" width="1672" height="941" loading="lazy" decoding="async">
     </picture>
   </div>
@@ -64,7 +68,9 @@
     <article class="card glass">
       <figure class="card__fig" id="natCut">
         <picture>
+          <source media="(max-aspect-ratio: 1/1)" type="image/avif" srcset="assets/img/bg-natureza-9x16.avif" width="941" height="1672">
           <source media="(max-aspect-ratio: 1/1)" srcset="assets/img/bg-natureza-9x16.webp" width="941" height="1672">
+          <source type="image/avif" srcset="assets/img/bg-natureza-16x9.avif">
           <img src="assets/img/bg-natureza-16x9.webp" alt="Folhagem densa de floresta tropical vista de cima, com samambaias e folhas largas" width="1672" height="941" loading="lazy" decoding="async">
         </picture>
       </figure>
@@ -77,16 +83,16 @@
       </div>
     </article>
     <!-- recortes na frente do vidro (eixo Z) -->
-    <img class="cut cut--nat-a" data-speed="-26" data-depth="1.2" src="assets/img/cut-cacho-superior-01.webp" alt="" aria-hidden="true" width="1141" height="912" loading="lazy" decoding="async">
-    <img class="cut cut--nat-b" data-speed="22" data-depth="1.6" src="assets/img/cut-cacho-inferior-01.webp" alt="" aria-hidden="true" width="1218" height="1024" loading="lazy" decoding="async">
-    <img class="cut cut--nat-c" data-speed="-44" data-depth="2" src="assets/img/cut-samambaia-01.webp" alt="" aria-hidden="true" width="954" height="1455" loading="lazy" decoding="async">
+    <picture><source type="image/avif" srcset="assets/img/cut-cacho-superior-01.avif"><img class="cut cut--nat-a" data-speed="-26" data-depth="1.2" src="assets/img/cut-cacho-superior-01.webp" alt="" aria-hidden="true" width="1141" height="912" loading="lazy" decoding="async"></picture>
+    <picture><source type="image/avif" srcset="assets/img/cut-cacho-inferior-01.avif"><img class="cut cut--nat-b" data-speed="22" data-depth="1.6" src="assets/img/cut-cacho-inferior-01.webp" alt="" aria-hidden="true" width="1218" height="1024" loading="lazy" decoding="async"></picture>
+    <picture><source type="image/avif" srcset="assets/img/cut-samambaia-01.avif"><img class="cut cut--nat-c" data-speed="-44" data-depth="2" src="assets/img/cut-samambaia-01.webp" alt="" aria-hidden="true" width="954" height="1455" loading="lazy" decoding="async"></picture>
   </div>
 </section>
 
 <!-- 3. CONSCIÊNCIA -->
 <section class="cons" id="consciencia" aria-labelledby="t-cons">
   <div class="layer layer--mist" aria-hidden="true">
-    <picture><img src="assets/img/bg-consciencia-16x9.webp" alt="" width="1672" height="941" loading="lazy" decoding="async"></picture>
+    <picture><source type="image/avif" srcset="assets/img/bg-consciencia-16x9.avif"><img src="assets/img/bg-consciencia-16x9.webp" alt="" width="1672" height="941" loading="lazy" decoding="async"></picture>
   </div>
   <div class="ring" aria-hidden="true"></div>
   <div class="wrap cons__wrap">
@@ -105,12 +111,14 @@
     <div class="mec__base" aria-hidden="true"><span>por baixo da imagem</span></div>
     <div class="mec__open" aria-hidden="true">
       <picture>
+        <source media="(max-aspect-ratio: 1/1)" type="image/avif" srcset="assets/img/bg-mecanica-9x16.avif" width="941" height="1672">
         <source media="(max-aspect-ratio: 1/1)" srcset="assets/img/bg-mecanica-9x16.webp" width="941" height="1672">
+        <source type="image/avif" srcset="assets/img/bg-mecanica-16x9.avif">
         <img src="assets/img/bg-mecanica-16x9.webp" alt="" width="1672" height="941" loading="lazy" decoding="async">
       </picture>
     </div>
-    <img class="cut cut--mec-a" data-speed="-40" data-depth="1.4" src="assets/img/cut-tropical-01.webp" alt="" aria-hidden="true" width="996" height="1327" loading="lazy" decoding="async">
-    <img class="cut cut--mec-b" data-speed="-70" data-depth="2" src="assets/img/cut-samambaia-01.webp" alt="" aria-hidden="true" width="954" height="1455" loading="lazy" decoding="async">
+    <picture><source type="image/avif" srcset="assets/img/cut-tropical-01.avif"><img class="cut cut--mec-a" data-speed="-40" data-depth="1.4" src="assets/img/cut-tropical-01.webp" alt="" aria-hidden="true" width="996" height="1327" loading="lazy" decoding="async"></picture>
+    <picture><source type="image/avif" srcset="assets/img/cut-samambaia-01.avif"><img class="cut cut--mec-b" data-speed="-70" data-depth="2" src="assets/img/cut-samambaia-01.webp" alt="" aria-hidden="true" width="954" height="1455" loading="lazy" decoding="async"></picture>
   </div>
   <div class="mec__panel glass">
     <h2 id="t-mec">O que você acabou de ver</h2>
@@ -127,11 +135,13 @@
 <section class="end" id="encerramento" aria-labelledby="t-end">
   <div class="layer layer--bg layer--dim" data-tilt-layer="0.6" aria-hidden="true">
     <picture>
+      <source media="(max-aspect-ratio: 1/1)" type="image/avif" srcset="assets/img/bg-encerramento-9x16.avif" width="941" height="1672">
       <source media="(max-aspect-ratio: 1/1)" srcset="assets/img/bg-encerramento-9x16.webp" width="941" height="1672">
+      <source type="image/avif" srcset="assets/img/bg-encerramento-16x9.avif">
       <img src="assets/img/bg-encerramento-16x9.webp" alt="" width="1672" height="941" loading="lazy" decoding="async">
     </picture>
   </div>
-  <img class="cut cut--end" data-speed="14" data-depth="0.8" src="assets/img/cut-galho-superior-01.webp" alt="" aria-hidden="true" width="1438" height="644" loading="lazy" decoding="async">
+  <picture><source type="image/avif" srcset="assets/img/cut-galho-superior-01.avif"><img class="cut cut--end" data-speed="14" data-depth="0.8" src="assets/img/cut-galho-superior-01.webp" alt="" aria-hidden="true" width="1438" height="644" loading="lazy" decoding="async"></picture>
   <div class="wrap end__wrap">
     <p class="eyebrow">Feito pela CRIVO</p>
     <h2 id="t-end">Esta experiência é uma amostra do nosso cuidado.</h2>
