@@ -5,7 +5,7 @@ window.SITE = {
   landingUrl: '',
   // Vídeo de abertura (Pexels). Caminhos relativos a esta pasta. Vazio = só a imagem de poster.
   heroVideo: {
-    desktop: '', // ex.: 'assets/video/hero-desktop.mp4'
+    desktop: 'assets/video/hero-desktop.mp4', // Pexels 28580909 (Ejov Igor), 1080p, loop com emenda cruzada
     mobile: ''   // ex.: 'assets/video/hero-mobile.mp4'
   }
 };

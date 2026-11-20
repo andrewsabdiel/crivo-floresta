@@ -1,13 +1,14 @@
-/* Floresta · CRIVO. Palco: floresta. Vidro fosco sobre folhagem, recortes na frente do vidro,
-   texto preenchido pela imagem e máscara que abre com a rolagem. */
+/* Floresta · CRIVO. Palco: floresta. Liquid glass sobre folhagem, recortes na frente do vidro,
+   texto preenchido pela imagem, luz dinâmica e máscara que abre com a rolagem. */
 :root{
   --g1:#6E8649; --g2:#477023; --g3:#2D531A; --g4:#0D330E; --g5:#071E07;
   --ink:#eef3e6; --ink-soft:#c3cfb8; --paper:#eef2e8; --paper-ink:#0D330E;
-  --glass:rgba(13,51,14,.42); --line:rgba(238,243,230,.24);
+  --line:rgba(238,243,230,.24);
   --f-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
   --f-accent:'Instrument Serif',Georgia,serif;
   --gl:max(16px,env(safe-area-inset-left,0px));
   --gr:max(16px,env(safe-area-inset-right,0px));
+  --overlap:28vh; /* quanto a Natureza sobe sobre a Abertura para a passagem ser contínua */
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -27,14 +28,18 @@ a{color:inherit}
 
 /* barra */
 .bar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:12px;
-  padding:calc(10px + env(safe-area-inset-top,0px)) var(--gr) 10px var(--gl);
-  background:transparent}
+  padding:calc(10px + env(safe-area-inset-top,0px)) var(--gr) 10px var(--gl);background:transparent}
 .bar__tools{display:flex;gap:8px;align-items:center}
 .brand,.chip{text-shadow:0 1px 10px rgba(0,0,0,.5)}
 .brand{font-weight:800;letter-spacing:.28em;font-size:.82rem;text-decoration:none}
 .chip{font:600 .72rem/1 var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--ink);background:transparent;
   border:1px solid var(--line);border-radius:999px;padding:9px 12px;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--ink);color:var(--g4)}
+/* sobre o card claro da Consciência a barra troca para texto escuro */
+.bar--dark .brand,.bar--dark .chip{color:var(--g4);text-shadow:none}
+.bar--dark .chip{border-color:rgba(13,51,14,.35)}
+.bar--dark .chip[aria-pressed="true"]{background:var(--g4);color:var(--ink)}
+.brand,.chip{transition:color .3s,border-color .3s}
 .progress{position:fixed;left:0;right:0;top:0;height:3px;z-index:60;background:var(--g1);transform-origin:0 50%;transform:scaleX(0)}
 
 /* base */
@@ -51,7 +56,7 @@ section{position:relative;overflow:clip;isolation:isolate}
 .layer--dim::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,30,7,.78),rgba(7,30,7,.25))}
 .layer--mist img{object-position:50% 100%}
 .shade{position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(7,30,7,.9) 0%,rgba(7,30,7,.4) 45%,rgba(7,30,7,.12) 72%)}
-/* liquid glass: fundo translúcido, brilho especular que acompanha a inclinação, borda em relevo e profundidade */
+/* liquid glass: fundo translúcido, brilho especular que acompanha cursor/inclinação, borda em relevo e profundidade */
 .glass{
   background:
     radial-gradient(120% 70% at calc(12% + var(--tilt-x,0) * 22%) 0%,rgba(255,255,255,.26),rgba(255,255,255,0) 55%),
@@ -67,14 +72,16 @@ section{position:relative;overflow:clip;isolation:isolate}
   filter:drop-shadow(0 16px 20px rgba(0,0,0,.4))}
 
 /* 1 abertura */
-.hero{min-height:100svh;display:flex;align-items:flex-end;padding:96px 0 72px}
+.hero{min-height:100svh;display:flex;align-items:flex-end;padding:96px 0 calc(var(--overlap) + 40px)}
 .hero__wrap{z-index:3}
 .hero__copy{display:grid;gap:18px;max-width:760px}
 .hero h1{font-size:clamp(2.5rem,10.5vw,5.6rem)}
 .hero .lede{color:var(--ink-soft);max-width:46ch;font-size:1.02rem}
 
-/* 2 natureza */
-.nat{padding:130px 0 170px;background:var(--g4)}
+/* 2 natureza: sobe sobre a Abertura; o topo do fundo é transparente e funde com o vídeo */
+.nat{margin-top:calc(var(--overlap) * -1);padding:calc(var(--overlap) + 110px) 0 calc(170px + 6vh);background:transparent}
+.nat > .layer{-webkit-mask-image:linear-gradient(to bottom,transparent 0,transparent 7%,#000 calc(7% + var(--overlap)));
+  mask-image:linear-gradient(to bottom,transparent 0,transparent 7%,#000 calc(7% + var(--overlap)))}
 .card{position:relative;z-index:4;display:grid;gap:26px;padding:20px;border-radius:28px}
 /* recorte no vidro: mostra o mesmo fundo da seção, alinhado por JS, com a mesma película escura e borda em relevo */
 .card__fig{margin:0;border-radius:20px;overflow:hidden;aspect-ratio:4/5;min-height:240px;position:relative;background:var(--g4)}
@@ -88,7 +95,6 @@ section{position:relative;overflow:clip;isolation:isolate}
 .card h3{font-size:1.4rem;font-weight:300;letter-spacing:0;padding-bottom:10px;border-bottom:1px solid var(--line);max-width:19ch}
 .card p.body{color:var(--ink-soft);max-width:44ch}
 .card__links{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:.85rem;color:var(--ink-soft)}
-.cut--nat-a{--w:clamp(150px,28vw,320px);right:-10%;top:-175px}
 .cut--nat-b{--w:clamp(170px,38vw,400px);left:-8%;bottom:-100px}
 .cut--nat-c{--w:clamp(90px,14vw,150px);right:4%;bottom:-215px}
 @media(min-width:820px){
@@ -96,8 +102,10 @@ section{position:relative;overflow:clip;isolation:isolate}
   .card__fig{aspect-ratio:3/4}
 }
 
-/* 3 consciência */
-.cons{background:var(--paper);color:var(--paper-ink);padding:130px 0 clamp(240px,32vw,400px)}
+/* 3 consciência: um card claro, de cantos arredondados, apoiado sobre o resto da página */
+.cons{background:var(--paper);color:var(--paper-ink);padding:130px 0 clamp(240px,32vw,400px);
+  margin:-6vh clamp(10px,2vw,28px) 0;border-radius:clamp(28px,4vw,56px);z-index:2;
+  box-shadow:0 -24px 70px rgba(0,0,0,.35),0 40px 90px rgba(0,0,0,.5);transform-origin:50% 0}
 .cons .eyebrow{color:var(--g3)}
 .cons .layer img{opacity:.9}
 .big{display:block;margin:18px 0 8px;font-weight:800;letter-spacing:-.045em;line-height:.9;font-size:clamp(3.6rem,21vw,14rem);
@@ -116,25 +124,33 @@ section{position:relative;overflow:clip;isolation:isolate}
 .ring::after{content:"";position:absolute;right:12%;bottom:8%;width:10px;height:10px;border-radius:50%;background:var(--g3)}
 @media(min-width:820px){.cons__cols{grid-template-columns:1fr 1fr;gap:56px}}
 
-/* 4 mecânica */
-.mec{height:100svh;min-height:560px;background:var(--g5)}
+/* 4 mecânica: verde com luz dinâmica e texto branco; depois a paisagem abre junto com o card */
+.mec{height:100svh;min-height:560px;background:var(--g4)}
 .mec__stage{position:absolute;inset:0}
-.mec__base{position:absolute;inset:0;background:var(--g5);display:grid;place-items:center;padding:0 var(--gr) 0 var(--gl)}
-.mec__base span{font-weight:800;font-size:clamp(2.4rem,11vw,8rem);letter-spacing:-.04em;color:rgba(238,243,230,.12);text-align:center;line-height:1}
-.mec__open{position:absolute;inset:0;clip-path:circle(85% at 50% 50%)}
+.mec__light{position:absolute;inset:0;width:100%;height:100%;display:block}
+.mec--nogl .mec__stage{background:
+  radial-gradient(60% 50% at 25% 20%,rgba(110,134,73,.35),transparent 70%),
+  radial-gradient(50% 45% at 80% 70%,rgba(71,112,35,.3),transparent 70%),var(--g4)}
+.mec__intro{position:absolute;inset:0;z-index:3;display:grid;place-content:center;justify-items:center;gap:18px;text-align:center;
+  padding:0 var(--gr) 0 var(--gl)}
+.mec__title{font-weight:800;font-size:clamp(2.2rem,6.2vw,5.6rem);line-height:1.02;letter-spacing:-.025em;max-width:16ch;text-wrap:balance;color:#fff}
+.mec__intro .eyebrow{color:rgba(255,255,255,.8)}
+.mec__open{position:absolute;inset:0;z-index:2;clip-path:circle(85% at 50% 50%)}
 .mec__open picture,.mec__open img{width:100%;height:100%;object-fit:cover}
 .mec__open::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,transparent 30%,rgba(7,30,7,.55))}
-.cut--mec-a{--w:clamp(120px,28vw,300px);left:-4%;top:10%;z-index:5}
-.cut--mec-b{--w:clamp(110px,24vw,260px);right:-3%;top:4%;z-index:5}
+.mec__fade{position:absolute;inset:0;z-index:7;background:var(--g4);opacity:0;pointer-events:none}
 .mec__panel{position:absolute;z-index:6;left:var(--gl);right:var(--gr);bottom:48px;max-width:520px;padding:22px;border-radius:24px;display:grid;gap:12px}
 .mec__panel h2{font-size:clamp(1.7rem,6vw,2.6rem)}
 .mec__panel ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;color:var(--ink-soft);font-size:.92rem}
 .mec__panel li{display:flex;gap:10px;align-items:baseline}
 .mec__panel li::before{content:"";flex:0 0 8px;height:8px;border-radius:50%;background:var(--g1);transform:translateY(-1px)}
+.mec--static .mec__intro,.mec--static .mec__light{display:none}
 @media(min-width:820px){.mec__panel{left:auto;right:max(var(--gr),6vw);top:0;bottom:0;margin-block:auto;height:fit-content}}
 
-/* 5 encerramento */
-.end{padding:150px 0 130px;background:var(--g4)}
+/* 5 encerramento: começa no mesmo verde em que a Mecânica termina e a floresta aparece por cima */
+.end{padding:clamp(300px,32vw,440px) 0 130px;background:var(--g4)}
+.end > .layer{-webkit-mask-image:linear-gradient(to bottom,transparent 0,transparent 8%,#000 38%);
+  mask-image:linear-gradient(to bottom,transparent 0,transparent 8%,#000 38%)}
 .end__wrap{max-width:1180px}
 .end h2{font-size:clamp(2.2rem,8vw,4.6rem);max-width:15ch;margin-top:14px}
 .end p.lede{color:var(--ink-soft);max-width:46ch;margin-top:20px}
@@ -142,6 +158,20 @@ section{position:relative;overflow:clip;isolation:isolate}
 .cta{display:inline-flex;align-items:center;gap:10px;margin-top:32px;padding:16px 28px;border-radius:999px;text-decoration:none;font-weight:600;font-size:1.02rem;color:var(--ink)}
 .cta:hover{background:rgba(238,243,230,.16)}
 .cta[aria-disabled="true"]{opacity:.6;cursor:not-allowed}
-.credits{margin-top:80px;font-size:.78rem;color:var(--ink-soft)}
+
+/* rodapé */
+.foot{background:var(--g5);border-top:1px solid var(--line);padding-block:56px calc(40px + env(safe-area-inset-bottom,0px));color:var(--ink-soft);font-size:.88rem}
+.foot__wrap{display:grid;gap:28px}
+.foot__brand{display:grid;gap:8px}
+.foot__brand .brand{color:var(--ink);text-shadow:none}
+.foot__nav{display:flex;flex-wrap:wrap;gap:10px 24px}
+.foot__nav a{color:var(--ink);text-decoration:none;border-bottom:1px solid transparent;padding-block:4px}
+.foot__nav a:hover{border-bottom-color:var(--ink)}
+.foot__meta{display:grid;gap:6px;font-size:.78rem}
+@media(min-width:820px){
+  .foot__wrap{grid-template-columns:1.2fr 1fr;align-items:start}
+  .foot__nav{justify-content:flex-end}
+  .foot__meta{grid-column:1 / -1;grid-template-columns:1fr auto;padding-top:24px;border-top:1px solid var(--line)}
+}
 
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
