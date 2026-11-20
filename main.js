@@ -83,7 +83,7 @@
 
   // ---- giroscópio (só celular): move as camadas conforme a inclinação
   function createTilt() {
-    var st = { x: 0, y: 0 }, base = null, enabled = true, active = false, lastX = 99, lastY = 99;
+    var st = { x: 0, y: 0 }, base = null, enabled = true, active = false, frameOn = false, amp = 1, lastX = 99, lastY = 99;
     var qx = gsap.quickTo(st, 'x', { duration: 0.6, ease: 'power3.out' });
     var qy = gsap.quickTo(st, 'y', { duration: 0.6, ease: 'power3.out' });
     var layers = $$('[data-tilt-layer]'), cuts = $$('.cut[data-depth]'), root = document.documentElement;
@@ -101,23 +101,40 @@
     function frame() {
       if (Math.abs(st.x - lastX) < 0.002 && Math.abs(st.y - lastY) < 0.002) return;
       lastX = st.x; lastY = st.y;
-      layers.forEach(function (el) { var d = parseFloat(el.dataset.tiltLayer) || 1; gsap.set(el, { x: st.x * -14 * d, y: st.y * -10 * d }); });
-      cuts.forEach(function (el) { var d = parseFloat(el.dataset.depth) || 1; gsap.set(el, { xPercent: st.x * -7 * d, yPercent: st.y * -5 * d }); });
+      layers.forEach(function (el) { var d = parseFloat(el.dataset.tiltLayer) || 1; gsap.set(el, { x: st.x * -14 * d * amp, y: st.y * -10 * d * amp }); });
+      cuts.forEach(function (el) { var d = parseFloat(el.dataset.depth) || 1; gsap.set(el, { xPercent: st.x * -7 * d * amp, yPercent: st.y * -5 * d * amp }); });
       root.style.setProperty('--tilt-x', st.x.toFixed(3));
     }
+    function ensureFrame() { if (!frameOn) { frameOn = true; gsap.ticker.add(frame); } }
+    function onMove(e) {
+      if (!enabled || e.pointerType === 'touch') return;
+      qx(clamp((e.clientX / window.innerWidth - 0.5) * 2, -1, 1));
+      qy(clamp((e.clientY / window.innerHeight - 0.5) * 2, -1, 1));
+    }
     return {
+      // celular: giroscópio
       begin: function () {
         if (active) return; active = true;
         window.addEventListener('deviceorientation', onOri, { passive: true });
-        gsap.ticker.add(frame);
+        ensureFrame();
+      },
+      // desktop: posição do cursor, mais ampla porque a tela é maior
+      beginMouse: function () {
+        if (active) return; active = true; amp = 1.6;
+        window.addEventListener('pointermove', onMove, { passive: true });
+        document.documentElement.addEventListener('mouseleave', function () { qx(0); qy(0); });
+        ensureFrame();
       },
       setEnabled: function (on) { enabled = on; if (!on) { qx(0); qy(0); } }
     };
   }
 
   function initTilt() {
-    if (reduce || !hasGsap || !('DeviceOrientationEvent' in window)) return;
-    if (!window.matchMedia('(pointer: coarse)').matches) return;
+    if (reduce || !hasGsap) return;
+    var coarse = window.matchMedia('(pointer: coarse)').matches;
+    var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (fine && !coarse) { tiltCtl = createTilt(); tiltCtl.beginMouse(); return; } // PC: segue o cursor
+    if (!coarse || !('DeviceOrientationEvent' in window)) return;
     tiltCtl = createTilt();
     var DOE = window.DeviceOrientationEvent;
     if (typeof DOE.requestPermission === 'function') {
