@@ -24,20 +24,23 @@
 
 <header class="bar">
   <a class="brand" href="#abertura" aria-label="CRIVO, voltar ao início">CRIVO</a>
-  <button class="chip" id="btnMotion" type="button" aria-pressed="false">Pausar movimento</button>
+  <div class="bar__tools">
+    <button class="chip" id="btnTilt" type="button" hidden>Ativar inclinação</button>
+    <button class="chip" id="btnMotion" type="button" aria-pressed="false">Pausar movimento</button>
+  </div>
 </header>
 
 <main id="conteudo">
 
 <!-- 1. ABERTURA -->
 <section class="hero" id="abertura" aria-labelledby="t-hero">
-  <div class="layer layer--bg" data-parallax>
+  <div class="layer layer--bg" data-tilt-layer="1">
     <picture>
       <source media="(max-aspect-ratio: 1/1)" srcset="assets/img/bg-mecanica-9x16.webp" width="941" height="1672">
       <img src="assets/img/bg-mecanica-16x9.webp" alt="" width="1672" height="941" fetchpriority="high" decoding="async">
     </picture>
-    <!-- O vídeo entra aqui via config.js (heroVideo). Sem ele, a imagem é o poster. -->
-    <video class="hero__video" muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1"></video>
+    <!-- O vídeo entra aqui via config.js (heroVideo), em loop contínuo com fade cruzado. Sem ele, a imagem é o poster. -->
+    <video class="hero__video" muted playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
   </div>
   <div class="shade"></div>
   <div class="wrap hero__wrap">
@@ -45,17 +48,13 @@
       <p class="eyebrow">Experiência CRIVO</p>
       <h1 id="t-hero">A floresta ainda está <span class="accent">aí</span>.</h1>
       <p class="lede">Uma pequena viagem pela beleza da natureza, e pelo que perdemos quando deixamos de olhar para ela.</p>
-      <div class="hero__actions">
-        <a class="pill pill--solid" href="#natureza">Role para explorar</a>
-        <button class="pill" id="btnPlay" type="button" hidden>Reproduzir vídeo</button>
-      </div>
     </div>
   </div>
 </section>
 
 <!-- 2. NATUREZA -->
 <section class="nat" id="natureza" aria-labelledby="t-nat">
-  <div class="layer layer--bg layer--blur" aria-hidden="true">
+  <div class="layer layer--bg layer--tint" id="natBg" data-tilt-layer="0.6" aria-hidden="true">
     <picture>
       <source media="(max-aspect-ratio: 1/1)" srcset="assets/img/bg-natureza-9x16.webp" width="941" height="1672">
       <img src="assets/img/bg-natureza-16x9.webp" alt="" width="1672" height="941" loading="lazy" decoding="async">
@@ -63,7 +62,7 @@
   </div>
   <div class="wrap nat__wrap">
     <article class="card glass">
-      <figure class="card__fig">
+      <figure class="card__fig" id="natCut">
         <picture>
           <source media="(max-aspect-ratio: 1/1)" srcset="assets/img/bg-natureza-9x16.webp" width="941" height="1672">
           <img src="assets/img/bg-natureza-16x9.webp" alt="Folhagem densa de floresta tropical vista de cima, com samambaias e folhas largas" width="1672" height="941" loading="lazy" decoding="async">
@@ -78,9 +77,9 @@
       </div>
     </article>
     <!-- recortes na frente do vidro (eixo Z) -->
-    <img class="cut cut--nat-a" data-speed="-26" src="assets/img/cut-cacho-superior-01.webp" alt="" aria-hidden="true" width="1141" height="912" loading="lazy" decoding="async">
-    <img class="cut cut--nat-b" data-speed="22" src="assets/img/cut-cacho-inferior-01.webp" alt="" aria-hidden="true" width="1218" height="1024" loading="lazy" decoding="async">
-    <img class="cut cut--nat-c" data-speed="-44" src="assets/img/cut-samambaia-01.webp" alt="" aria-hidden="true" width="954" height="1455" loading="lazy" decoding="async">
+    <img class="cut cut--nat-a" data-speed="-26" data-depth="1.2" src="assets/img/cut-cacho-superior-01.webp" alt="" aria-hidden="true" width="1141" height="912" loading="lazy" decoding="async">
+    <img class="cut cut--nat-b" data-speed="22" data-depth="1.6" src="assets/img/cut-cacho-inferior-01.webp" alt="" aria-hidden="true" width="1218" height="1024" loading="lazy" decoding="async">
+    <img class="cut cut--nat-c" data-speed="-44" data-depth="2" src="assets/img/cut-samambaia-01.webp" alt="" aria-hidden="true" width="954" height="1455" loading="lazy" decoding="async">
   </div>
 </section>
 
@@ -97,9 +96,7 @@
     <div class="cons__cols">
       <p>Perceber a natureza é o primeiro passo para cuidar dela. O que fica invisível é o que se perde sem que ninguém note.</p>
       <p class="strong">Não somos apenas visitantes. Somos parte deste ecossistema.</p>
-    </div>
-    <img class="cut cut--cons" data-speed="-30" src="assets/img/cut-hosta-01.webp" alt="" aria-hidden="true" width="899" height="1212" loading="lazy" decoding="async">
-  </div>
+    </div>  </div>
 </section>
 
 <!-- 4. MECÂNICA -->
@@ -112,8 +109,8 @@
         <img src="assets/img/bg-mecanica-16x9.webp" alt="" width="1672" height="941" loading="lazy" decoding="async">
       </picture>
     </div>
-    <img class="cut cut--mec-a" data-speed="-40" src="assets/img/cut-tropical-01.webp" alt="" aria-hidden="true" width="996" height="1327" loading="lazy" decoding="async">
-    <img class="cut cut--mec-b" data-speed="-70" src="assets/img/cut-samambaia-01.webp" alt="" aria-hidden="true" width="954" height="1455" loading="lazy" decoding="async">
+    <img class="cut cut--mec-a" data-speed="-40" data-depth="1.4" src="assets/img/cut-tropical-01.webp" alt="" aria-hidden="true" width="996" height="1327" loading="lazy" decoding="async">
+    <img class="cut cut--mec-b" data-speed="-70" data-depth="2" src="assets/img/cut-samambaia-01.webp" alt="" aria-hidden="true" width="954" height="1455" loading="lazy" decoding="async">
   </div>
   <div class="mec__panel glass">
     <h2 id="t-mec">O que você acabou de ver</h2>
@@ -121,20 +118,20 @@
       <li>Camadas que se movem em profundidade</li>
       <li>Uma máscara que se abre com a rolagem</li>
       <li>Texto preenchido pela imagem</li>
-      <li>Vidro fosco só onde ajuda a leitura</li>
+      <li>Liquid glass só onde ajuda a leitura</li>
     </ul>
   </div>
 </section>
 
 <!-- 5. ENCERRAMENTO -->
 <section class="end" id="encerramento" aria-labelledby="t-end">
-  <div class="layer layer--bg layer--dim" aria-hidden="true">
+  <div class="layer layer--bg layer--dim" data-tilt-layer="0.6" aria-hidden="true">
     <picture>
       <source media="(max-aspect-ratio: 1/1)" srcset="assets/img/bg-encerramento-9x16.webp" width="941" height="1672">
       <img src="assets/img/bg-encerramento-16x9.webp" alt="" width="1672" height="941" loading="lazy" decoding="async">
     </picture>
   </div>
-  <img class="cut cut--end" data-speed="14" src="assets/img/cut-galho-superior-01.webp" alt="" aria-hidden="true" width="1438" height="644" loading="lazy" decoding="async">
+  <img class="cut cut--end" data-speed="14" data-depth="0.8" src="assets/img/cut-galho-superior-01.webp" alt="" aria-hidden="true" width="1438" height="644" loading="lazy" decoding="async">
   <div class="wrap end__wrap">
     <p class="eyebrow">Feito pela CRIVO</p>
     <h2 id="t-end">Esta experiência é uma amostra do nosso cuidado.</h2>
